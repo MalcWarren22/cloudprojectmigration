@@ -109,3 +109,44 @@ Infrastructure is managed through **Terraform**, enabling version-controlled dep
 ## Performance Efficiency
 
 Azure’s managed AI services allow the system to process sentiment analysis requests efficiently without requiring dedicated machine learning infrastructure. By using Azure AI Language Services, the application can scale sentiment processing dynamically based on workload demand.
+
+
+# System Architecture
+
+The Sentiment Analysis Dashboard is built using a **cloud-native architecture on Microsoft Azure**.  
+User requests are routed through Azure’s global edge network, protected by a Web Application Firewall, and processed through serverless compute and AI services.
+
+```mermaid
+flowchart TD
+
+User[User Browser]
+
+FD[Azure Front Door<br>+ Web Application Firewall]
+
+Frontend[React + Vite<br>Sentiment Dashboard]
+
+Func[Azure Functions API]
+
+AI[Azure AI Language<br>Sentiment Analysis]
+
+SQL[(Azure SQL Database)]
+
+KV[Azure Key Vault<br>Secrets]
+
+YT[YouTube API]
+TW[Twitter/X API]
+
+Storage[(Azure Storage<br>Function Runtime)]
+
+User --> FD
+FD --> Frontend
+Frontend --> Func
+
+Func --> AI
+Func --> SQL
+Func --> KV
+Func --> Storage
+
+Func --> YT
+Func --> TW
+```
